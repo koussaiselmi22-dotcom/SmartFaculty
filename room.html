@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h2>{{ room.name }}</h2>
+        <span class="badge bg-secondary">Level: {{ room.level }}</span>
+    </div>
+    {% if session.get("role") in ("professor", "admin") %}
+        <a href="/room/{{ room.id }}/add" class="btn btn-success btn-sm">➕ Add Content</a>
+    {% endif %}
+</div>
+
+<div class="row">
+{% for c in contents %}
+    <div class="col-md-4 mt-3">
+        <div class="card card-glass p-3">
+            <span class="badge bg-info mb-2 d-inline-block" style="width:fit-content;">{{ c.type }}</span>
+            <h5>{{ c.title }}</h5>
+            <p class="text-white-50 small">{{ c.content }}</p>
+            {% if c.file_path %}
+                <a href="{{ url_for('static', filename='uploads/' + c.file_path) }}"
+                   target="_blank" class="btn btn-outline-light btn-sm mt-2">
+                    📎 Download File
+                </a>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
+
+{% if not contents %}
+    <div class="col-12 mt-3">
+        <div class="card card-glass p-4 text-center text-white-50">
+            <p class="mb-0">No content in this room yet.</p>
+        </div>
+    </div>
+{% endif %}
+</div>
+
+{% endblock %}

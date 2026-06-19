@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4">✏️ Edit Room</h2>
+
+<div class="card card-glass p-4" style="max-width:500px;">
+    <form method="POST">
+
+        <div class="mb-3">
+            <label class="form-label">Room Name</label>
+            <input class="form-control bg-transparent text-white border-secondary"
+                   name="name" value="{{ room.name }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Level</label>
+            <select name="level" class="form-select bg-transparent text-white border-secondary">
+                {% for lvl in ["L1", "L2", "L3", "M1", "M2"] %}
+                    <option value="{{ lvl }}" {% if room.level == lvl %}selected{% endif %}>
+                        {{ lvl }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label">Description</label>
+            <textarea class="form-control bg-transparent text-white border-secondary"
+                      name="description" rows="3">{{ room.description }}</textarea>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button class="btn btn-primary" type="submit">Update</button>
+            <a href="/rooms" class="btn btn-secondary">Cancel</a>
+        </div>
+
+    </form>
+</div>
+
+{% endblock %}

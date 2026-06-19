@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-3">👥 Users Management</h2>
+
+<table class="table table-dark table-hover align-middle">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Change Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for u in users %}
+        <tr>
+            <td>{{ u.name }}</td>
+            <td class="text-white-50">{{ u.email }}</td>
+            <td>
+                <span class="badge
+                    {% if u.role == 'admin' %}bg-danger
+                    {% elif u.role == 'professor' %}bg-warning text-dark
+                    {% elif u.role == 'moderator' %}bg-primary
+                    {% else %}bg-info{% endif %}">
+                    {{ u.role }}
+                </span>
+            </td>
+            <td>
+                <form method="POST" action="/users/change_role/{{ u.id }}">
+                    <select name="role"
+                            class="form-select form-select-sm bg-dark text-white border-secondary"
+                            style="width:150px;"
+                            onchange="this.form.submit()">
+                        <option value="user"      {% if u.role == 'user'      %}selected{% endif %}>👤 User</option>
+                        <option value="professor" {% if u.role == 'professor' %}selected{% endif %}>🎓 Professor</option>
+                        <option value="moderator" {% if u.role == 'moderator' %}selected{% endif %}>🛡️ Moderator</option>
+                        <option value="admin"     {% if u.role == 'admin'     %}selected{% endif %}>⚙️ Admin</option>
+                    </select>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

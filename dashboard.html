@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SmartFaculty Dashboard</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #0f172a;
+    color: white;
+    overflow-x: hidden;
+}
+.bg-symbols {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    pointer-events: none;
+}
+.symbol {
+    position: absolute;
+    color: rgba(255,255,255,0.06);
+    font-size: 40px;
+    animation: float 12s linear infinite;
+}
+@keyframes float {
+    from { transform: translateY(100vh); }
+    to   { transform: translateY(-200px); }
+}
+.sidebar {
+    position: fixed;
+    left: 0; top: 0;
+    width: 240px;
+    height: 100vh;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    z-index: 10;
+}
+.sidebar h2 { margin-bottom: 30px; }
+.sidebar a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin: 10px 0;
+    padding: 10px 14px;
+    border-radius: 10px;
+    transition: background 0.2s;
+}
+.sidebar a:hover { background: rgba(255,255,255,0.1); }
+.sidebar .divider {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    margin: 15px 0;
+}
+.main { margin-left: 260px; padding: 30px; }
+.card-box {
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px;
+    transition: 0.3s;
+    height: 100%;
+}
+.card-box:hover { transform: translateY(-6px); }
+.hero {
+    background: linear-gradient(135deg, #4f46e5, #06b6d4);
+    padding: 30px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+</style>
+</head>
+<body>
+
+<div class="bg-symbols">
+    <div class="symbol" style="left:5%">∑</div>
+    <div class="symbol" style="left:15%;animation-delay:2s">π</div>
+    <div class="symbol" style="left:25%;animation-delay:4s">∫</div>
+    <div class="symbol" style="left:35%;animation-delay:1s">f(x)</div>
+    <div class="symbol" style="left:45%;animation-delay:3s">while()</div>
+    <div class="symbol" style="left:55%;animation-delay:5s">for()</div>
+    <div class="symbol" style="left:65%;animation-delay:2s">x²</div>
+    <div class="symbol" style="left:75%;animation-delay:6s">λ</div>
+    <div class="symbol" style="left:85%;animation-delay:1s">O(n)</div>
+</div>
+
+<div class="sidebar">
+    <h2>🎓 SmartFaculty</h2>
+    <a href="/dashboard">🏠 Dashboard</a>
+    <a href="/rooms">📚 Rooms</a>
+    <a href="/my_rooms">📝 My Rooms</a>
+    <a href="/schedule">📅 Schedule</a>
+    {% if role == "admin" %}
+        <div class="divider"></div>
+        <a href="/rooms/add">➕ Add Room</a>
+        <a href="/users">👥 Users</a>
+    {% endif %}
+    <div class="divider"></div>
+    <a href="/logout">🚪 Logout</a>
+</div>
+
+<div class="main">
+    <div class="hero">
+        <h1>Welcome {{ name }} 👋</h1>
+        <p class="mb-0">Mathematics • Algorithms • Engineering Platform</p>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4 mb-3">
+            <div class="card-box">
+                <h3>👥 Users</h3>
+                <h2>{{ users_count }}</h2>
+            </div>
+        </div>
+        <div class="col-lg-4 mb-3">
+            <div class="card-box">
+                <h3>📚 Rooms</h3>
+                <h2>{{ rooms_count }}</h2>
+            </div>
+        </div>
+        <div class="col-lg-4 mb-3">
+            <div class="card-box">
+                <h3>🔐 Access</h3>
+                <h2>{{ access_count }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-lg-4 mb-3">
+            <div class="card-box text-center">
+                <h3>📚 Rooms</h3>
+                <p>Explore learning rooms</p>
+                <a href="/rooms" class="btn btn-primary w-100">Open</a>
+            </div>
+        </div>
+        <div class="col-lg-4 mb-3">
+            <div class="card-box text-center">
+                <h3>🧠 Algorithms</h3>
+                <p>Study complexity O(n)</p>
+                <a href="#" class="btn btn-success w-100">Start</a>
+            </div>
+        </div>
+        <div class="col-lg-4 mb-3">
+            <div class="card-box text-center">
+                <h3>🚪 Logout</h3>
+                <p>End session</p>
+                <a href="/logout" class="btn btn-danger w-100">Exit</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

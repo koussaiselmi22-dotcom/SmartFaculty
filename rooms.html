@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>📚 Rooms</h2>
+    {% if session.get("role") == "admin" %}
+        <a href="/rooms/add" class="btn btn-pro">➕ Add Room</a>
+    {% endif %}
+</div>
+
+<div class="row">
+{% for r in rooms %}
+    <div class="col-md-4 mt-3">
+        <div class="card card-glass p-3">
+            <h5>{{ r.name }}</h5>
+            <p class="mb-1"><span class="badge bg-secondary">Level: {{ r.level }}</span></p>
+            <p class="text-white-50 small mb-3">{{ r.description }}</p>
+            <div class="d-flex gap-2">
+                <a href="/room/{{ r.id }}" class="btn btn-pro btn-sm flex-grow-1">Open</a>
+                {% if session.get("role") == "admin" %}
+                    <a href="/rooms/edit/{{ r.id }}" class="btn btn-warning btn-sm">✏️</a>
+                    <a href="/rooms/delete/{{ r.id }}" class="btn btn-danger btn-sm"
+                       onclick="return confirm('Delete {{ r.name }}?')">🗑️</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+{% if not rooms %}
+    <div class="col-12 mt-3">
+        <div class="card card-glass p-4 text-center text-white-50">
+            <p class="mb-0">No rooms available yet.</p>
+        </div>
+    </div>
+{% endif %}
+</div>
+
+{% endblock %}

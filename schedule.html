@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>📅 Schedule / Emploi du Temps</h2>
+    {% if session.get("role") in ["admin", "moderator"] %}
+        <a href="/schedule/add" class="btn btn-pro">➕ Add Class</a>
+    {% endif %}
+</div>
+
+<div class="table-responsive">
+    <table class="table table-dark table-hover align-middle">
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Time</th>
+                <th>Course</th>
+                <th>Professor</th>
+                <th>Room</th>
+                <th>Level</th>
+                {% if session.get("role") in ["admin", "moderator"] %}
+                    <th>Actions</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in schedule %}
+            <tr>
+                <td><span class="badge bg-info">{{ s.day }}</span></td>
+                <td>{{ s.start_time }} - {{ s.end_time }}</td>
+                <td><strong>{{ s.course_name }}</strong></td>
+                <td>{{ s.professor_name or '—' }}</td>
+                <td>{{ s.room_name }}</td>
+                <td><span class="badge bg-secondary">{{ s.level or '—' }}</span></td>
+                {% if session.get("role") in ["admin", "moderator"] %}
+                    <td>
+                        <a href="/schedule/edit/{{ s.id }}" class="btn btn-warning btn-sm">✏️</a>
+                        <a href="/schedule/delete/{{ s.id }}" class="btn btn-danger btn-sm"
+                           onclick="return confirm('Delete this class?')">🗑️</a>
+                    </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            
+            {% if not schedule %}
+            <tr>
+                <td colspan="7" class="text-center text-white-50 py-4">
+                    No classes scheduled yet.
+                </td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
